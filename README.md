@@ -2,7 +2,7 @@
 
 ## Setting up
 
-You will need
+You will need to install ESP-IDF (ESP32 SDK) with a few changes for Husarnet. You can follow the steps below or the detailed instruction on https://docs.espressif.com/projects/esp-idf/en/stable/get-started/#setup-toolchain (just be to use https://github.com/husarnet/esp-idf instead of https://github.com/espressif/esp-idf as a SDK repo address).
 
 1. As a first step, download ESP32 toolchain: https://docs.espressif.com/projects/esp-idf/en/stable/get-started/#setup-toolchain
 

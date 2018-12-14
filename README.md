@@ -12,10 +12,10 @@ You will need to install ESP-IDF (ESP32 SDK) with a few changes for Husarnet. Yo
    git clone --recursive https://github.com/husarnet/esp-idf ~/apps/husarnet-esp-idf
    ```
 
-   Export the environment variable ESP_IDF:
+   Export the environment variable IDF_PATH:
 
    ```
-   export ESP_IDF=$HOME/apps/husarnet-esp-idf
+   export IDF_PATH=$HOME/apps/husarnet-esp-idf
    ```
 
 3. Build the example:

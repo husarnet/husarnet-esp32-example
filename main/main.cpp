@@ -23,16 +23,16 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
 {
     switch(event->event_id) {
     case SYSTEM_EVENT_STA_START:
-        LOG("SYSTEM_EVENT_STA_START");
+        printf("SYSTEM_EVENT_STA_START");
         ESP_ERROR_CHECK(esp_wifi_connect());
         break;
     case SYSTEM_EVENT_STA_GOT_IP:
-        LOG("SYSTEM_EVENT_STA_GOT_IP");
-        LOG("got ip: %s",
+        printf("SYSTEM_EVENT_STA_GOT_IP");
+        printf("got ip: %s",
             ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
         break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
-        LOG("SYSTEM_EVENT_STA_DISCONNECTED");
+        printf("SYSTEM_EVENT_STA_DISCONNECTED");
         ESP_ERROR_CHECK(esp_wifi_connect());
         break;
     default:
@@ -55,13 +55,13 @@ void wifiConnect() {
 
 void connected() {
     WebSetup::start("", "ESP32");
-    LOG("IP: %s", WebSetup::nodeAddress.str().c_str());
-    LOG("websetup secret: %s", WebSetup::sharedSecret.c_str());
+    printf("IP: %s", WebSetup::nodeAddress.str().c_str());
+    printf("websetup secret: %s", WebSetup::sharedSecret.c_str());
 
     static char statsBuf[4000];
 
     while (true) {
-        LOG("free memory: %d", (int)esp_get_free_heap_size());
+        printf("free memory: %d", (int)esp_get_free_heap_size());
         vTaskDelay(4000 / portTICK_PERIOD_MS);
     }
 }

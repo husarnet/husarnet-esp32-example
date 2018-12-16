@@ -12,6 +12,7 @@
 #include "nvs.h"
 
 #include "websetup.h"
+#include "port.h"
 
 #include "default_wifi_config.h"
 
@@ -19,20 +20,28 @@ extern "C" {
     void app_main();
 }
 
+void connected();
+
 static esp_err_t event_handler(void *ctx, system_event_t *event)
 {
     switch(event->event_id) {
     case SYSTEM_EVENT_STA_START:
-        printf("SYSTEM_EVENT_STA_START");
+        printf("SYSTEM_EVENT_STA_START\n");
         ESP_ERROR_CHECK(esp_wifi_connect());
         break;
     case SYSTEM_EVENT_STA_GOT_IP:
-        printf("SYSTEM_EVENT_STA_GOT_IP");
+        printf("SYSTEM_EVENT_STA_GOT_IP\n");
         printf("got ip: %s",
             ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
+        static bool alreadyConnected = false;
+        if (!alreadyConnected) {
+            alreadyConnected = true;
+            startThread(connected, "main", 5000);
+            // startThread(bench_tcp, "bench", 5000);
+        }
         break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
-        printf("SYSTEM_EVENT_STA_DISCONNECTED");
+        printf("SYSTEM_EVENT_STA_DISCONNECTED\n");
         ESP_ERROR_CHECK(esp_wifi_connect());
         break;
     default:
@@ -55,13 +64,11 @@ void wifiConnect() {
 
 void connected() {
     WebSetup::start("", "ESP32");
-    printf("IP: %s", WebSetup::nodeAddress.str().c_str());
-    printf("websetup secret: %s", WebSetup::sharedSecret.c_str());
-
-    static char statsBuf[4000];
+    printf("IP: %s\n", WebSetup::nodeAddress.str().c_str());
+    printf("websetup secret: %s\n", WebSetup::sharedSecret.c_str());
 
     while (true) {
-        printf("free memory: %d", (int)esp_get_free_heap_size());
+        printf("free memory: %d\n", (int)esp_get_free_heap_size());
         vTaskDelay(4000 / portTICK_PERIOD_MS);
     }
 }
